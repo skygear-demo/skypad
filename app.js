@@ -111,7 +111,7 @@ function getHashFromURL(){
   return readNote;
 }
 
-skygearPad.on("keydown", fireSync);
+skygearPad.on("change keyup click", fireSync);
 
 
 $().ready(function(){
