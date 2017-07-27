@@ -8,8 +8,8 @@ Built with [Skygear](https://skygear.io)
 
 # Features
 
-* Handy - Create a pad instanly
-* Easy Sharing -  Share by URL
+* Handy - Create a pad instantly
+* Easy Sharing -  Share by URL, Twitter or FB
 * Collaboration - Real time sync across all platforms
 * Auto Save - Changes saved on the cloud automatically
 
