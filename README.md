@@ -1,6 +1,6 @@
 # Skypad
 
-Built with [Skygear](https://skygear.io)
+Simple, real time collaborative notepad on the cloud. Built with [Skygear](https://skygear.io)
 
 * To start using: https://skygear-demo.github.io/skypad
 
@@ -27,7 +27,7 @@ const config = {
 }
 ```
 
-# To deploy
+# Deploy
 
 This app can be deployed on AWS s3, Skygear hosting, GitHub Page or other static hosts.
 
@@ -35,3 +35,7 @@ This app can be deployed on AWS s3, Skygear hosting, GitHub Page or other static
   * index.html
   * app.js
   * app.css
+
+# Feedback and Contribution
+
+Feel free to open any issue and PR. Contact at hello@skygear.io
