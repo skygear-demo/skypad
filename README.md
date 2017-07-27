@@ -14,6 +14,8 @@ Simple, real time collaborative notepad on the cloud. Quickyl built in an hour w
 * Collaboration - Real time sync across all platforms.
 * Auto Save - Changes saved on the cloud automatically.
 
+[Try it here](https://skygear-demo.github.io/skypad)
+
 # Develop
 
 * Edit the `config` dict at `app.js`
