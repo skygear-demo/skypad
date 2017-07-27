@@ -123,6 +123,7 @@ function displaySharingOptions(noteURL) {
   var shareFBEl = $("#share-fb");
 
   shareURLEl[0].href = noteURL;
+  noteURL=noteURL.replace("#","%23");
   shareTwitterEl[0].href = shareTwitterEl[0].href.replace('{{note-url}}',noteURL);
   shareFBEl[0].href = shareFBEl[0].href.replace('{{note-url}}',noteURL);
 
