@@ -1,9 +1,13 @@
+body {
+  background-color: #111;
+}
 textarea#skypad {
   border: 0;
   position: fixed;
   padding: 20px;
   width: 100%;
-  height: 100%;
+  top: 0;
+  bottom:60px;
   color: #fff;
   background-color: #111;
   font-family: monospace;
@@ -13,13 +17,21 @@ textarea,input:focus {
     outline: none;
 }
 
+#credits {
+  color: #999;
+}
+
+#credits a {
+  color: #777;
+}
+
 #share-bar {
   border: 0;
   position: fixed;
   margin: 0;
   width:100%;
   bottom: 0;
-  height: 20px;
+  height: 40px;
   z-index: 20;
   color: #fff;
   background-color: #333;
