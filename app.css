@@ -11,7 +11,7 @@ textarea#skypad {
   color: #fff;
   background-color: #111;
   font-family: monospace;
-  height: calc(100% - 60px);
+  height: calc(100% - 100px);
 }
 
 textarea,input:focus {
