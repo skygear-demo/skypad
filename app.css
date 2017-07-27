@@ -39,3 +39,9 @@ textarea,input:focus {
   padding: 10px;
   display: none;
 }
+
+@media (max-height: 400px ){
+    #share-bar {
+      visibility: hidden;
+    }
+}
