@@ -1,4 +1,4 @@
-var config = {
+const config = {
   baseURL: "https://skygear-demo.github.io/skypad",
   skygearAPIEndpoint: "https://skypad.skygeario.com/",
   skygearAPIKey: "ac59c61350b14227ad5a6114a40176ba",
@@ -61,11 +61,13 @@ function loadExistingNote(noteId) {
       }
 
       const record = records[0];
+      var noteURL = `${config.baseURL}#${record._id}`;
 
       skygear.on('note/' + record._id, sync);
       thisNote = record;
 
       skygearPad.val(record.content);
+      displaySharingOptions(noteURL);
 
     }, function(error) {
       console.error(error);
@@ -84,14 +86,16 @@ function configSkygear(apiEndpoint, apiKey) {
           loadExistingNote(noteId)
         } else {
           createNote().then(function(note) {
-            console.log(note._id);
+            var noteURL = `${config.baseURL}#${note._id}`;
+
             thisNote = note;
             skygear.on('note/' + note._id, sync);
             window.location.hash = note._id;
 
             skygearPad.val('Welcome to Skypad!' +
-              `\n😎Share with this URL ${config.baseURL}#${note._id}` +
+              `\n😎Share with this URL ${noteURL}` +
               '\n\nStart typing.');
+            displaySharingOptions(noteURL)
             fireSync(null);
           });
         }
@@ -107,9 +111,22 @@ function getHashFromURL() {
   if (window.location.hash) {
     // Fragment exists
     readNote = window.location.hash.substr(1);
-    console.log(readNote)
   }
   return readNote;
+}
+
+function displaySharingOptions(noteURL) {
+  var shareBarEl =  $("#share-bar");
+
+  var shareURLEl = $("#share-url");
+  var shareTwitterEl = $("#share-twitter");
+  var shareFBEl = $("#share-fb");
+
+  shareURLEl[0].href = noteURL;
+  shareTwitterEl[0].href = shareTwitterEl[0].href.replace('{{note-url}}',noteURL);
+  shareFBEl[0].href = shareFBEl[0].href.replace('{{note-url}}',noteURL);
+
+  shareBarEl.show();
 }
 
 skygearPad.on("change keyup click", fireSync);

@@ -12,3 +12,18 @@ textarea#skypad {
 textarea,input:focus {
     outline: none;
 }
+
+#share-bar {
+  border: 0;
+  position: fixed;
+  margin: 0;
+  width:100%;
+  bottom: 0;
+  height: 20px;
+  z-index: 20;
+  color: #fff;
+  background-color: #333;
+  font-family: monospace;
+  padding: 10px;
+  display: none;
+}
