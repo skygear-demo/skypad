@@ -6,10 +6,13 @@ const config = {
   writerPass: "writerpass"
 }
 
-var skygearPad = $("textarea#skypad")
+var skygearPad = $("div#skypad-display");
 const Note = skygear.Record.extend("Note");
 var thisNote = null;
 var ramdomToken = Math.random().toString(36).substring(7); // for distinguishing tabs
+
+var cachedCode = '';
+
 
 function createNote() {
   var note = new Note({
@@ -28,22 +31,24 @@ function saveNote(content) {
   skygear.publicDB.save(toSaveNote);
 }
 
-function fireSync() {
+function fireSync(content) {
+
   if (thisNote) {
     skygear.pubsub.publish('note/' + thisNote._id, {
       token: ramdomToken,
-      content: skygearPad.val()
+      content: content
     });
-    saveNote(skygearPad.val());
+    saveNote(content);
   }
 }
 
 function sync(data) {
-  if (data.token == ramdomToken) {
+  if (data.token === ramdomToken) {
     return;
+  } else {
+    cachedCode = data.content;
+    flask.update(data.content);
   }
-  //console.log(data);
-  skygearPad.val(data.content);
 }
 
 function loadExistingNote(noteId) {
@@ -54,8 +59,8 @@ function loadExistingNote(noteId) {
     .then(function(records) {
       if (records.length == 0) {
         console.log(`No Record for ${noteId}`);
-        skygearPad.val(
-          `❌ 404 not found.\n\nYou can create a new pad at ${config.baseURL}`
+        flask.update(
+          `// ❌ 404 not found.\n\nYou can create a new pad at ${config.baseURL}`
         );
         return;
       }
@@ -66,7 +71,7 @@ function loadExistingNote(noteId) {
       skygear.on('note/' + record._id, sync);
       thisNote = record;
 
-      skygearPad.val(record.content);
+      flask.update(record.content);
       displaySharingOptions(noteURL);
 
     }, function(error) {
@@ -92,11 +97,22 @@ function configSkygear(apiEndpoint, apiKey) {
             skygear.on('note/' + note._id, sync);
             window.location.hash = note._id;
 
-            skygearPad.val('Welcome to Skypad!' +
-              `\n😎Share with this URL ${noteURL}` +
-              '\n\nStart typing.');
+            var initContent =  '// Welcome to Skypad!' +
+              `\n// 😎 Share with this URL ${noteURL}` +
+              '\n\n// Start typing.';
+
+              initContent += '\n\n// Now supports Syntax highlight. Uncomment the following lines to try:'+
+'\n'+
+'\n/*'+
+'\nfunction hello(name) {'+
+'\n    console.log(`hello ${name}!`);'+
+'\n}'+
+'\n'+
+'\nhello(\'world\');'+
+'\n*/';
+            flask.update(initContent);
             displaySharingOptions(noteURL)
-            fireSync(null);
+            fireSync(initContent);
           });
         }
 
@@ -130,9 +146,17 @@ function displaySharingOptions(noteURL) {
   shareBarEl.show();
 }
 
-skygearPad.on("change keyup click", fireSync);
-
-
 $().ready(function() {
   configSkygear(config.skygearAPIEndpoint, config.skygearAPIKey);
 })
+
+// Code highlight
+   var flask = new CodeFlask;
+    flask.run('#skypad-display', { language: 'javascript'});
+      flask.onUpdate(function(code) {
+        if (cachedCode !== code) {
+          cachedCode = code;
+          fireSync(code);
+        }
+        
+});

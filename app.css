@@ -1,13 +1,17 @@
+html,body {
+    height:100%;
+}
+
 body {
   background-color: #111;
 }
-textarea#skypad {
-  border: 0;
+
+div#skypad-display {
   position: fixed;
+  border: 0;
   padding: 20px;
   width: 100%;
   top: 0;
-  bottom:60px;
   color: #fff;
   background-color: #111;
   font-family: monospace;
@@ -16,6 +20,9 @@ textarea#skypad {
 
 textarea,input:focus {
     outline: none;
+}
+.CodeFlask__pre {
+  bottom: 0; /* Fix the scrolling problem*/
 }
 
 #credits {
@@ -44,5 +51,8 @@ textarea,input:focus {
 @media (max-height: 400px ){
     #share-bar {
       visibility: hidden;
+    }
+    div#skypad-display {
+      height: 100%;
     }
 }

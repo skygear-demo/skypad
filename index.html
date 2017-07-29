@@ -23,6 +23,14 @@
     <script src="https://cdn.muicss.com/mui-0.9.9-rc2/js/mui.min.js"></script>
     <script src="https://code.skygear.io/js/polyfill/latest/polyfill.min.js"></script>
     <script src="https://code.skygear.io/js/skygear/latest/skygear.min.js"></script>
+    <!-- load code highlighter -->
+    <link rel="stylesheet" href="vendor/prism/prism.css">
+
+   <link rel="stylesheet" href="vendor/codeflask/codeflask.css">
+
+   <script src="vendor/prism/prism.js"></script>
+    <script src="vendor/codeflask/codeflask.js"></script>
+    codeflask
 
   <!--Zepto-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
@@ -30,8 +38,10 @@
     <link href="app.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-  <textarea id="skypad">Skypad Loading...</textarea>
+  <div id="skypad-display" data-language="javascript">// Skypad Loading...</div>
+  
   <div id="share-bar">Share this pad: <a id="share-url" target="_blank" href="{{note-url}}">[url]</a> <a id="share-twitter" target="_blank" href="http://twitter.com/share?text=I've created a pad using skypad!&url={{note-url}}&hashtags=skygear,skypad">[twitter]</a> <a id="share-fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{note-url}}">[facebook]</a><div id="credits">powered by <a target="_blank" href="https://skygear.io">[Skygear]</a> | Open source at <a target="_blank" href="https://github.com/skygear-demo/skypad">[GitHub]</a> </div></div>
   <script src="app.js"></script>
+
   </body>
 </html>
