@@ -1,6 +1,8 @@
 # Skypad
 
-Simple, real time collaborative notepad on the cloud. Quickyl built in an hour with [Skygear](https://skygear.io)
+Simple, real time collaborative notepad on the cloud. 
+
+First version quickly built in an hour with [Skygear](https://skygear.io)
 
 * Start using: https://skygear-demo.github.io/skypad
 
