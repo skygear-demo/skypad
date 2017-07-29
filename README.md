@@ -47,6 +47,14 @@ This app can be deployed on localhost, AWS s3, Skygear hosting, GitHub Page or o
 
 Feel free to open any issue and PR. Contact at hello@skygear.io
 
+### Credits & Thanks
+
+* Code highlighting powered by [CodeFlask](https://github.com/kazzkiq/CodeFlask.js) by [kazzkiq](https://twitter.com/kazzkiq). That's awesome.
+
+* CSS and base style: [MUI](https://www.muicss.com/) a lightweight material framework.
+
+* I didn't use complex JS framework but [zepto.js](http://zeptojs.com/) for quick hacks and keep it lightweight.
+
 ### About Skygear
 
 [Skygear](https://skygear.io) is a backend for building real-time and cloud-based web/mobile app. Skypad is a perfect simple usecase.
