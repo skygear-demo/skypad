@@ -15,7 +15,7 @@ Simple, real time collaborative notepad on the cloud. Quickyl built in an hour w
 * Easy Sharing -  Share by URL, Twitter or FB.
 * Collaboration - Real time sync across all platforms.
 * Auto Save - Changes saved on the cloud automatically.
-* e Highligting -  JavaScript, C, HTML and CSS. And more comming.
+* Syntax Highligting - Support JavaScript, C, HTML and CSS. More comming.
 
 [Try it here](https://skygear-demo.github.io/skypad)
 
