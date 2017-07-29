@@ -7,6 +7,7 @@ const config = {
 }
 
 var skygearPad = $("div#skypad-display");
+var codeHighlightSelector = $(".code-highlight-selector");
 const Note = skygear.Record.extend("Note");
 var thisNote = null;
 var ramdomToken = Math.random().toString(36).substring(7); // for distinguishing tabs
@@ -87,8 +88,9 @@ function configSkygear(apiEndpoint, apiKey) {
     skygear.loginWithUsername(config.writerUser, config.writerPass).then(
       function(user) {
         var noteId = getHashFromURL();
+        codeHighlightSelector.show();
         if (noteId) {
-          loadExistingNote(noteId)
+          loadExistingNote(noteId);
         } else {
           createNote().then(function(note) {
             var noteURL = `${config.baseURL}#${note._id}`;
@@ -153,10 +155,17 @@ $().ready(function() {
 // Code highlight
    var flask = new CodeFlask;
     flask.run('#skypad-display', { language: 'javascript'});
+    $('#code-highlight-caption').text("JavaScript");  
       flask.onUpdate(function(code) {
         if (cachedCode !== code) {
           cachedCode = code;
           fireSync(code);
         }
-        
 });
+
+$(".code-highlight-selector ul li a").on("click touch", function(e) {
+  var langChosen = e.target.dataset.lang;
+  flask.run('#skypad-display', { language: langChosen});
+  langChosen = (langChosen =="clike")? "C" : langChosen;
+  $('#code-highlight-caption').text(langChosen);  
+})

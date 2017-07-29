@@ -48,6 +48,22 @@ textarea,input:focus {
   display: none;
 }
 
+.code-highlight-selector {
+  float: right;
+  display: none;
+}
+
+.code-highlight-selector button {
+  font-size: 12px;
+}
+
+.code-highlight-selector ul {
+  font-size: 12px;
+}
+
+.code-highlight-selector ul li a {
+  cursor: pointer;
+}
 @media (max-height: 400px ){
     #share-bar {
       visibility: hidden;

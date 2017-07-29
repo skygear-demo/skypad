@@ -38,9 +38,24 @@
     <link href="app.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-  <div id="skypad-display" data-language="javascript">// Skypad Loading...</div>
+  <div id="skypad-display">// Skypad Loading...</div>
   
   <div id="share-bar">Share this pad: <a id="share-url" target="_blank" href="{{note-url}}">[url]</a> <a id="share-twitter" target="_blank" href="http://twitter.com/share?text=I've created a pad using skypad!&url={{note-url}}&hashtags=skygear,skypad">[twitter]</a> <a id="share-fb" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{note-url}}">[facebook]</a><div id="credits">powered by <a target="_blank" href="https://skygear.io">[Skygear]</a> | Open source at <a target="_blank" href="https://github.com/skygear-demo/skypad">[GitHub]</a> </div></div>
+  <div class="mui-dropdown code-highlight-selector">
+    <button class="mui-btn mui-btn--small mui-btn--flat mui-btn--primary" data-mui-toggle="dropdown">
+      <span id="code-highlight-caption">Code higlight</span>
+      <span class="mui-caret"></span>
+    </button>
+    <ul class="mui-dropdown__menu">
+      <li><a data-lang="None">None</a></li>
+      <li><a data-lang="JavaScript">JavaScript</a></li>
+      <li><a data-lang="HTML">HTML</a></li>
+      <li><a data-lang="CSS">CSS</a></li>
+      <li><a data-lang="clike">C</a></li>
+      
+    </ul>
+  </div>
+
   <script src="app.js"></script>
 
   </body>
