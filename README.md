@@ -8,6 +8,9 @@ First version quickly built in an hour with [Skygear](https://skygear.io)
 
 ![Code highlight Preview](https://user-images.githubusercontent.com/1916493/28747571-e14a8030-74d4-11e7-8c48-6f2edc1abc0c.gif)
 
+## Non-CDN version
+* This version's libraries are not served from any CDN. Suitable for independent deployment.
+
 ---
 
 # Features
