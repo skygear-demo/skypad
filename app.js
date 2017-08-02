@@ -59,15 +59,15 @@ function loadExistingNote(noteId) {
   skygear.publicDB.query(query)
     .then(function(records) {
       if (records.length == 0) {
-        console.log(`No Record for ${noteId}`);
+        console.log("No Record for " + noteId);
         flask.update(
-          `// ❌ 404 not found.\n\nYou can create a new pad at ${config.baseURL}`
+          "// ❌ 404 not found.\n\nYou can create a new pad at " + config.baseURL
         );
         return;
       }
 
       const record = records[0];
-      var noteURL = `${config.baseURL}#${record._id}`;
+      var noteURL = config.baseURL+"#"+record._id;
 
       skygear.on('note/' + record._id, sync);
       thisNote = record;
@@ -93,14 +93,14 @@ function configSkygear(apiEndpoint, apiKey) {
           loadExistingNote(noteId);
         } else {
           createNote().then(function(note) {
-            var noteURL = `${config.baseURL}#${note._id}`;
+            var noteURL = config.baseURL + "#" + note._id;
 
             thisNote = note;
             skygear.on('note/' + note._id, sync);
             window.location.hash = note._id;
 
             var initContent =  '// Welcome to Skypad!' +
-              `\n// 😎 Share with this URL ${noteURL}` +
+              '\n// 😎 Share with this URL ' + noteURL +
               '\n\n// Start typing.';
 
               initContent += '\n\n// Now supports Syntax highlight. Uncomment the following lines to try:'+
