@@ -33,7 +33,6 @@ function saveNote(content) {
 }
 
 function fireSync(content) {
-
   if (thisNote) {
     skygear.pubsub.publish('note/' + thisNote._id, {
       token: ramdomToken,
@@ -168,4 +167,10 @@ $(".code-highlight-selector ul li a").on("click touch", function(e) {
   flask.run('#skypad-display', { language: langChosen});
   langChosen = (langChosen =="clike")? "C" : langChosen;
   $('#code-highlight-caption').text(langChosen);  
+  flask.onUpdate(function(code) {
+    if (cachedCode !== code) {
+      cachedCode = code;
+      fireSync(code);
+    }
+  });
 })
