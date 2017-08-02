@@ -44,9 +44,10 @@ const config = {
 This app can be deployed on localhost, AWS s3, Skygear hosting, GitHub Page or other static hosts.
 
 * These files are required to deploy:
-  * index.html
-  * app.js
-  * app.css
+  * `index.html` - Main layout
+  * `app.js` - Main app logic
+  * `app.css` - CSS styling
+  * `/vendor` - Required external library files
 
 # Feedback and Contribution
 
