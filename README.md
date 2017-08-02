@@ -60,7 +60,7 @@ Feel free to open any issue and PR. Contact at hello@skygear.io
 
 * I didn't use complex JS framework but [zepto.js](http://zeptojs.com/) for quick hacks and keep it lightweight.
 
-### Metions
+### Mentions
 
 * [Discussion on HN](https://news.ycombinator.com/item?id=14864089)
 
