@@ -17,7 +17,8 @@ var cachedCode = '';
 
 function createNote() {
   var note = new Note({
-    content: ""
+    content: "",
+    viewcount: 0
   });
   return skygear.publicDB.save(note);
 }
@@ -28,6 +29,15 @@ function saveNote(content) {
   var toSaveNote = new Note({
     _id: thisNote.id,
     content: thisNote.content
+  });
+  skygear.publicDB.save(toSaveNote);
+}
+
+function increaseNoteCount(note) {
+
+  var toSaveNote = new Note({
+    _id: note.id,
+    viewcount: note.viewcount + 1
   });
   skygear.publicDB.save(toSaveNote);
 }
@@ -67,6 +77,8 @@ function loadExistingNote(noteId) {
 
       const record = records[0];
       var noteURL = config.baseURL+"#"+record._id;
+
+      increaseNoteCount(record);
 
       skygear.on('note/' + record._id, sync);
       thisNote = record;
