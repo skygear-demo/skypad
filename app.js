@@ -34,10 +34,11 @@ function saveNote(content) {
 }
 
 function increaseNoteCount(note) {
-
+  var viewCount = note.viewcount;
+  viewCount = (viewCount == undefined)? 0 :viewCount;
   var toSaveNote = new Note({
     _id: note.id,
-    viewcount: note.viewcount + 1
+    viewcount: viewCount + 1
   });
   skygear.publicDB.save(toSaveNote);
 }
