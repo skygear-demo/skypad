@@ -68,6 +68,8 @@ Feel free to open any issue and PR. Contact at hello@skygear.io
 
 * [Discussion on HN](https://news.ycombinator.com/item?id=14864089)
 
+<a href="https://www.sideprojectors.com/project/project/6509/skypad" alt="Skypad @sideprojectors" target="_blank"><img src="https://www.sideprojectors.com/img/logo.png" alt="Skypad @SideProjectors" width="200px"></a>
+
 ### About Skygear
 
 [Skygear](https://skygear.io) is a backend for building real-time and cloud-based web/mobile app. Skypad is a perfect simple usecase.
