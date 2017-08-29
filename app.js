@@ -81,7 +81,7 @@ function loadExistingNote(noteId) {
 
       increaseNoteCount(record);
 
-      skygear.on('note/' + record._id, sync);
+      skygear.pubsub.on('note/' + record._id, sync);
       thisNote = record;
 
       flask.update(record.content);
@@ -97,7 +97,7 @@ function configSkygear(apiEndpoint, apiKey) {
     'endPoint': apiEndpoint, // trailing slash is required
     'apiKey': apiKey,
   }).then(function() {
-    skygear.loginWithUsername(config.writerUser, config.writerPass).then(
+    skygear.auth.loginWithUsername(config.writerUser, config.writerPass).then(
       function(user) {
         var noteId = getHashFromURL();
         codeHighlightSelector.show();
@@ -108,7 +108,7 @@ function configSkygear(apiEndpoint, apiKey) {
             var noteURL = config.baseURL + "#" + note._id;
 
             thisNote = note;
-            skygear.on('note/' + note._id, sync);
+            skygear.pubsub.on('note/' + note._id, sync);
             window.location.hash = note._id;
 
             var initContent =  '// Welcome to Skypad!' +
