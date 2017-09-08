@@ -39,8 +39,66 @@ const config = {
 ```
 
 * Sign up at [Skygear](https://portal.skygear.io/signup) to obtain the API Endpoint and API Key.
-* Use `signupWithUserName` to create your own writerUser at Skygear.  
+* Use `signupWithUserName` to create your own writerUser at Skygear.
 
+```javascript
+// This call will create a user with user name `writer` and password `writerpass`
+skygear.auth.signupWithUserName("writer","writerpass"); 
+```
+
+# Sample snippets for Skygear API calls
+
+* Creating a `Note` and saving it to the cloud database
+
+```javascript
+function createNote() {
+  var note = new Note({
+    content: ""
+  });
+  return skygear.publicDB.save(note);
+}
+```
+
+* Loading back an existing `Note` if an note id is specified
+
+```javascript
+function loadExistingNote(noteId) {
+  const query = new skygear.Query(Note);
+  query.equalTo('_id', noteId);
+
+  skygear.publicDB.query(query)
+    .then(function(records) {
+      if (records.length == 0) {
+        console.log("No Record for " + noteId);
+        return;
+      }
+
+      const record = records[0];
+
+    }, function(error) {
+      console.error(error);
+    });
+}
+```
+
+### Real time update via Pubsub
+
+[Detail guide for Skygear pubsub in JS](https://docs.skygear.io/guides/pubsub/basics/js/)
+
+* Subscribing to a specific note channel with note ID
+
+```javascript
+skygear.pubsub.on('note/' + note._id, sync); // sync is the handler function
+```
+
+* Publishing event to a channel (Mainly for sending update event to all clients)
+
+```javascript
+skygear.pubsub.publish('note/' + thisNote._id, {
+  token: ramdomToken, // Random token for distinguishing windows so it will not loop 
+  content: content
+});
+```
 
 # Deploy
 
