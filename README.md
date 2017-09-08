@@ -28,7 +28,7 @@ First version quickly built in an hour with [Skygear](https://skygear.io)
 
 * Edit the `config` dict at `app.js`
 
-```
+```javascript
 const config = {
   baseURL: "https://yoursite.com/", // To help generate a correct sharing URL
   skygearAPIEndpoint: "https://skypad.skygeario.com/", // API Endpoint
