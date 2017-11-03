@@ -95,7 +95,6 @@ function sync(data) {
 }
 
 function syncTitle(data) {
-  console.log(data)
   if (data.token === ramdomToken) {
     return;
   } else {
@@ -223,8 +222,6 @@ $().ready(function() {
         }
 
       skygearTitle.on("keyup change blur", function(e){
-        console.log(e);
-        console.log(skygearTitle.val());
         var title = skygearTitle.val();
         fireSyncTitle(title);
       })
