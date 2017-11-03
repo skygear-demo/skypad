@@ -7,6 +7,7 @@ const config = {
 }
 
 var skygearPad = $("div#skypad-display");
+var skygearTitle = $("div#skypad-title input");
 var codeHighlightSelector = $(".code-highlight-selector");
 const Note = skygear.Record.extend("Note");
 var thisNote = null;
@@ -17,6 +18,7 @@ var cachedCode = '';
 
 function createNote() {
   var note = new Note({
+    title:"",
     content: "",
     viewcount: 0
   });
@@ -33,6 +35,20 @@ function saveNote(content) {
   skygear.publicDB.save(toSaveNote);
 }
 
+function updateTitleUI(title) {
+  document.title = "Skypad - "+ title + " ";
+}
+
+function saveTitle(title) {
+  thisNote['title'] = title;
+
+  var toSaveNote = new Note({
+    _id: thisNote.id,
+    title: thisNote.title
+  });
+  skygear.publicDB.save(toSaveNote);
+}
+
 function increaseNoteCount(note) {
   var viewCount = note.viewcount;
   viewCount = (viewCount == undefined)? 0 :viewCount;
@@ -42,6 +58,18 @@ function increaseNoteCount(note) {
   });
   skygear.publicDB.save(toSaveNote);
 }
+
+function fireSyncTitle(title) {
+  if (thisNote) {
+    skygear.pubsub.publish('note/' + thisNote._id, {
+      token: ramdomToken,
+      title: title
+    });
+    updateTitleUI(title);
+    saveTitle(title);
+  }
+}
+
 
 function fireSync(content) {
   if (thisNote) {
@@ -57,8 +85,21 @@ function sync(data) {
   if (data.token === ramdomToken) {
     return;
   } else {
-    cachedCode = data.content;
-    flask.update(data.content);
+    if (data.content !== undefined) {
+      cachedCode = data.content;
+      flask.update(data.content);
+    } else {
+      syncTitle(data);
+    }
+  }
+}
+
+function syncTitle(data) {
+  console.log(data)
+  if (data.token === ramdomToken) {
+    return;
+  } else {
+    skygearTitle.val(data.title);
   }
 }
 
@@ -87,6 +128,10 @@ function loadExistingNote(noteId) {
       flask.update(record.content);
       displaySharingOptions(noteURL);
 
+      var titleText = record.title? record.title : "untitled";
+      skygearTitle.val(titleText);
+      updateTitleUI(titleText);
+
     }, function(error) {
       console.error(error);
     });
@@ -111,6 +156,7 @@ function configSkygear(apiEndpoint, apiKey) {
             skygear.pubsub.on('note/' + note._id, sync);
             window.location.hash = note._id;
 
+            var initTitle = 'untitled';
             var initContent =  '// Welcome to Skypad!' +
               '\n// 😎 Share with this URL ' + noteURL +
               '\n\n// Start typing.';
@@ -125,8 +171,10 @@ function configSkygear(apiEndpoint, apiKey) {
 '\nhello(\'world\');'+
 '\n*/';
             flask.update(initContent);
+            skygearTitle.val(initTitle);
             displaySharingOptions(noteURL)
             fireSync(initContent);
+            fireSyncTitle(initTitle);
           });
         }
 
@@ -173,6 +221,13 @@ $().ready(function() {
           cachedCode = code;
           fireSync(code);
         }
+
+      skygearTitle.on("keyup change blur", function(e){
+        console.log(e);
+        console.log(skygearTitle.val());
+        var title = skygearTitle.val();
+        fireSyncTitle(title);
+      })
 });
 
 $(".code-highlight-selector ul li a").on("click touch", function(e) {
