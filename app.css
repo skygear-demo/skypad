@@ -29,6 +29,12 @@ div#skypad-title input:focus {
   background: #2980b9;
 }
 
+div#skypad-title input::-webkit-input-placeholder { color: #ccc; }
+div#skypad-title input::-moz-placeholder {color: #ccc; }
+div#skypad-title input:-ms-input-placeholder { color: #ccc; } 
+div#skypad-title input:-o-input-placeholder { color: #ccc; } 
+
+
 div#skypad-display {
   position: fixed;
   border: 0;
