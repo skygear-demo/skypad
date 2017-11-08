@@ -1,10 +1,9 @@
 # Skypad
 
-Simple, real time collaborative notepad on the cloud. 
+Simple, real time collaborative notepad on the cloud. First version quickly built in an hour with [Skygear](https://skygear.io)
 
-First version quickly built in an hour with [Skygear](https://skygear.io)
-
-* Start using: https://skygear-demo.github.io/skypad
+#### Try now:
+* Create a new note: https://skygear-demo.github.io/skypad
 
 ![Code highlight Preview](https://user-images.githubusercontent.com/1916493/28747571-e14a8030-74d4-11e7-8c48-6f2edc1abc0c.gif)
 
@@ -51,6 +50,17 @@ This app can be deployed on localhost, AWS s3, Skygear hosting, GitHub Page or o
   * `app.js` - Main app logic
   * `app.css` - CSS styling
   * `/vendor` - Required external library files
+
+# Versions
+
+You can view the previous version as tags, e.g. `v0.1`, `v0.2`
+
+* `mvp` Quick first usable version
+* `v0.1` Social sharing and UI fixed
+* `v0.2` Code highlighting
+* `v0.3` Create new pad and pad title
+* `v1.0` **(Upcoming)** Login and list of my notes
+* `v1.1` **(Upcoming)** Private notes
 
 # Feedback and Contribution
 
