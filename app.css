@@ -78,6 +78,46 @@ textarea,input:focus {
   display: none;
 }
 
+#side-bar {
+  float;right;
+  position: fixed;
+  width: 200px;
+  max-width: 30%;
+  top: 42px;
+  bottom: 0;
+  color: #fff;
+  right: 0;
+  background: #2f3640;
+  padding: 10px;
+  border-left: 2px #456184 solid;
+  transition: 1s;
+}
+
+
+#note-list {
+  list-style-type: none;
+}
+
+#note-list li {
+  padding-left: 1em;
+  text-indent: -1em;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  overflow: hidden;
+  width: 120px;
+}
+
+#note-list li:before {
+  content: "📝";
+  padding-right: 5px;
+}
+
+@media (max-width: 500px ){
+  #side-bar {
+    right: -200px;
+  }
+}
+
 .code-highlight-selector {
   float: right;
   display: none;

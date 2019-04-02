@@ -59,7 +59,7 @@ You can view the previous version as tags, e.g. `v0.1`, `v0.2`
 * `v0.1` Social sharing and UI fixed
 * `v0.2` Code highlighting
 * `v0.3` Create new pad and pad title
-* `v1.0` **(Upcoming)** Login and list of my notes
+* `v1.0` List of my notes (Automatically managed)
 * `v1.1` **(Upcoming)** Private notes
 
 # Feedback and Contribution

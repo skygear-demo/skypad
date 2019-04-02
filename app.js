@@ -1,20 +1,32 @@
 const config = {
   baseURL: "https://skygear-demo.github.io/skypad",
-  skygearAPIEndpoint: "https://skypad.skygeario.com/",
+  skygearAPIEndpoint: "https://skypad.skygeario.com/", // trailing slash is required
   skygearAPIKey: "ac59c61350b14227ad5a6114a40176ba",
   writerUser: "writer",
   writerPass: "writerpass"
 }
 
-var skygearPad = $("div#skypad-display");
-var skygearTitle = $("div#skypad-title input");
-var codeHighlightSelector = $(".code-highlight-selector");
+let skygearPad = $("div#skypad-display");
+let skygearTitle = $("div#skypad-title input");
+let noteList = $("#note-list");
+let codeHighlightSelector = $(".code-highlight-selector");
 const Note = skygear.Record.extend("Note");
-var thisNote = null;
-var ramdomToken = Math.random().toString(36).substring(7); // for distinguishing tabs
+let thisNote = null;
+let ramdomToken = Math.random().toString(36).substring(7); // for distinguishing tabs
 
-var cachedCode = '';
+let cachedCode = '';
 
+function createNoteListItem (note) {
+  let li = document.createElement('li');
+
+  let item = document.createElement('a');
+  let noteURL = config.baseURL+"#"+note._id;
+  item.textContent = note.title;
+  item.setAttribute('href', noteURL);
+
+  li.append(item)
+  return li;
+}
 
 function createNote() {
   var note = new Note({
@@ -22,6 +34,8 @@ function createNote() {
     content: "",
     viewcount: 0
   });
+
+  note.setPublicReadWriteAccess();
   return skygear.publicDB.save(note);
 }
 
@@ -82,24 +96,49 @@ function fireSync(content) {
 }
 
 function sync(data) {
-  if (data.token === ramdomToken) {
-    return;
-  } else {
     if (data.content !== undefined) {
-      cachedCode = data.content;
-      flask.update(data.content);
+      if (data.token === ramdomToken) {
+        return;
+      } else {
+        cachedCode = data.content;
+        flask.update(data.content);
+      }
     } else {
       syncTitle(data);
     }
-  }
 }
 
 function syncTitle(data) {
+  loadUserNotes(skygear.auth.currentUser._id);
   if (data.token === ramdomToken) {
     return;
   } else {
     skygearTitle.val(data.title);
   }
+}
+
+function loadUserNotes(userId) { // User created notes, not included notes user has edited
+  const query = new skygear.Query(Note);
+  query.equalTo('_created_by', userId);
+  query.addDescending('_created_at');
+
+  skygear.publicDB.query(query)
+    .then(function(records) {
+      if (records.length == 0) {
+        console.log("No Record for " + userId);
+        return;
+      }
+
+      console.log(`Found ${records.length} notes for user.`);
+      noteList.empty();
+      for (let note of records) {
+        let noteItem = createNoteListItem(note);
+        noteList.append(noteItem);
+      }
+
+    }, function(error) {
+      console.error(error);
+    });
 }
 
 function loadExistingNote(noteId) {
@@ -136,31 +175,26 @@ function loadExistingNote(noteId) {
     });
 }
 
-function configSkygear(apiEndpoint, apiKey) {
-  skygear.config({
-    'endPoint': apiEndpoint, // trailing slash is required
-    'apiKey': apiKey,
-  }).then(function() {
-    skygear.auth.loginWithUsername(config.writerUser, config.writerPass).then(
-      function(user) {
-        var noteId = getHashFromURL();
-        codeHighlightSelector.show();
-        if (noteId) {
-          loadExistingNote(noteId);
-        } else {
-          createNote().then(function(note) {
-            var noteURL = config.baseURL + "#" + note._id;
+function initNote (user) {
+  var noteId = getHashFromURL();
+  codeHighlightSelector.show();
+  if (noteId) {
+    loadExistingNote(noteId);
+    loadUserNotes(skygear.auth.currentUser._id)
+  } else {
+    createNote().then(function(note) {
+      var noteURL = config.baseURL + "#" + note._id;
 
-            thisNote = note;
-            skygear.pubsub.on('note/' + note._id, sync);
-            window.location.hash = note._id;
+      thisNote = note;
+      skygear.pubsub.on('note/' + note._id, sync);
+      window.location.hash = note._id;
 
-            var initTitle = 'untitled';
-            var initContent =  '// Welcome to Skypad!' +
-              '\n// 😎 Share with this URL ' + noteURL +
-              '\n\n// Start typing.';
+      var initTitle = 'untitled';
+      var initContent =  '// Welcome to Skypad!' +
+        '\n// 😎 Share with this URL ' + noteURL +
+        '\n\n// Start typing.';
 
-              initContent += '\n\n// Now supports Syntax highlight. Uncomment the following lines to try:'+
+        initContent += '\n\n// Now supports Syntax highlight. Uncomment the following lines to try:'+
 '\n'+
 '\n/*'+
 '\nfunction hello(name) {'+
@@ -169,15 +203,28 @@ function configSkygear(apiEndpoint, apiKey) {
 '\n'+
 '\nhello(\'world\');'+
 '\n*/';
-            flask.update(initContent);
-            skygearTitle.val(initTitle);
-            displaySharingOptions(noteURL)
-            fireSync(initContent);
-            fireSyncTitle(initTitle);
-          });
-        }
+      flask.update(initContent);
+      skygearTitle.val(initTitle);
+      displaySharingOptions(noteURL)
+      fireSync(initContent);
+      fireSyncTitle(initTitle);
+      loadUserNotes(skygear.auth.currentUser._id);
+    });
+  }
+}
 
+function configSkygear(apiEndpoint, apiKey) {
+  skygear.config({
+    'endPoint': apiEndpoint,
+    'apiKey': apiKey,
+  }).then(function() {
+    if (skygear.auth.currentUser) {
+      initNote(skygear.auth.currentUser);
+    } else {
+      skygear.auth.signupAnonymously().then(function(user) {
+        initNote(user);
       });
+    }
   }, function(error) {
     console.error(error.message);
   });
