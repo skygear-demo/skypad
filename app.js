@@ -16,6 +16,18 @@ let ramdomToken = Math.random().toString(36).substring(7); // for distinguishing
 
 let cachedCode = '';
 
+function logoutDefaultUser(callback) {
+  if (skygear.auth.currentUser && skygear.auth.currentUser.username == config.writerUser) {
+    skygear.auth.logout().then(
+        skygear.auth.signupAnonymously().then(
+            function(user) {
+              callback(user);
+            }
+          )
+      );
+  }
+}
+
 function createNoteListItem (note) {
   let li = document.createElement('li');
 
@@ -219,6 +231,7 @@ function configSkygear(apiEndpoint, apiKey) {
     'apiKey': apiKey,
   }).then(function() {
     if (skygear.auth.currentUser) {
+      logoutDefaultUser(initNote);
       initNote(skygear.auth.currentUser);
     } else {
       skygear.auth.signupAnonymously().then(function(user) {
